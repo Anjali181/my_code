@@ -1,6 +1,19 @@
-Feature: Verify homepage loads on clicking logo
+Feature: Login Functionality on Application
 
-  Scenario: Clicking on the logo should load the homepage
-    Given the user is on the home
-    When the user clicks on the logo
-    Then the homepage should be loaded
+#  Background:
+  Scenario:Valid Login
+    Given Open the Chrome and open xenonstack login page
+    When User enters correct username and password
+    Then User should be logged in successfully
+
+#  Scenario: Invalid Login
+#    When User enters incorrect username and password
+#    Then User should see an error message
+#
+#  Scenario:
+#    When User enters wrong email and correct password
+#    Then User should see an error message1
+#
+#  Scenario:
+#    When User enters correct email and wrong password
+#    Then User should see an error message2
