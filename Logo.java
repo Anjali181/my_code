@@ -1,42 +1,44 @@
 package StepDefinition;
 
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.When;
-import io.cucumber.java.en.Then;
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.Assert;
+import io.cucumber.java.en.*;
 import org.openqa.selenium.By;
-import io.cucumber.java.After;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeOptions;
-import utility.BrowserDriver;
-import static org.junit.Assert.assertEquals;
+import java.util.concurrent.TimeUnit;
 
-public class Logo extends BrowserDriver {
+import static io.github.bonigarcia.wdm.WebDriverManager.*;
 
-    @Given("the user is on the home")
-    public void the_user_is_on_the_home() {
-        WebDriverManager.chromedriver().setup();
+public class Login{
+    WebDriver driver;
+
+    @Given("Open the Chrome and open xenonstack login page")
+    public void user_is_on_the_xenonstack_login_page() {
+        chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         driver = new ChromeDriver(options);
-        driver.get("https://www.xenonstack.com");
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.get("https://xenonstack.jobs/app/login");
     }
 
-    @When("the user clicks on the logo")
-    public void the_user_clicks_on_the_logo() {
-    driver.findElement(By.xpath("//*[@id=\"xs-header\"]/div/nav/div/ul[1]/li[1]/a/img")).click();
-    }
-    @Then("the homepage should be loaded")
-    public void the_homepage_should_be_loaded() {
-        Assert.assertTrue(driver.getCurrentUrl().contains("https://www.xenonstack.com"));
+    @When("User enters correct username and password")
+    public void enter_Username_Password() {
+        driver.findElement(By.xpath("//input[@id='tpt_loginUsername']")).sendKeys("xcvcxvzxczcx@gmail.com");
+        driver.findElement(By.xpath("//input[@id='tpt_loginPassword']")).sendKeys("Sunita@07");
+        WebElement loginButton = driver.findElement(By.xpath("//button[@id='loginButton']"));
+        loginButton.click();
     }
 
-    // Remember to close the browser after each scenario
-    @After
-    public void tearDown() {
-        if (driver != null) {
-            driver.quit();
+    @Then("User should be logged in successfully")
+    public void verify_successful_login() {
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+        System.out.println("Valid Login Successful");
+        driver.close();
     }
 }
-
